@@ -44,6 +44,7 @@ Daedalus is far from its ideal state; my hope is to provide a script that will d
 - [ ] Update the csv files in ntsb_mdb_export directory to reflect the latest release.
 - [ ] Convert all tables in the MDB format of the eADMS dataset, or csv exports of those tables, to MySQL tables. This [sample script](https://app.ntsb.gov/avdata/eadmspub.sql.txt) provided by the NTSB that promises to create a SQL Server version of the database was a useful guide as I worked with the six tables I successfully converted.
 - [ ] Share your publications that use this repository or the eADMS dataset by updating this README file.
+- [ ] Add file detailing all the variables available in the NTSB eADMS dataset. The existing [list of variables](https://app.ntsb.gov/avdata/eadmspub.pdf) nor any other NTSB documentation offers such details.
 
 ## Publications Using Daedalus Project
 There are no publications that use this tool, yet.
