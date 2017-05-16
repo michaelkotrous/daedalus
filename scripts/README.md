@@ -1,0 +1,2 @@
+# Daedalus Scripts
+These scripts, in order, import the csvs listed in ntsb_mdb_export into a MySQL database, merge the tables together to combine the aircraft, pilot, and events data, and export a csv containing all General Aviation accidents involving fixed-wing aircraft. The pilots included in the exported dataset are categorized as "pilots" by the NTSB (as opposed to flight instructors, student pilots, and co-pilots, among others) and are identified as the first crew member aboard the aircraft by the NTSB.
