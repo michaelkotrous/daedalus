@@ -12,7 +12,7 @@ The goal of the Daedalus project is to provide inspiration and even maybe the to
 The first iteration of this repository will convert six eADMS tables into MySQL tables, merge those tables, and then export a dataset listing aircraft, pilot, time, and weather information on all General Aviation accidents between Jan. 1, 1982 and May 1, 2017 that involved fixed-wing airplanes.
 
 ### Generating General Aviation Accident Data
-Create a MySQL database of any name of your choosing, and a database user with all privileges. See the subsection "System Requirements" below for more on installing MySQL. Then in Terminal or PowerShell:
+Create a MySQL database of any name of your choosing, and a database user with all privileges. See the subsection "System Requirements" below for more on installing MySQL. Then in Terminal:
 
 ```bash
 cd /path/to/daedalus
@@ -24,22 +24,26 @@ You will be prompted for the password of the MySQL user. Once entered, the remai
 **Note:** The `cra.sh` shell script also accepts option `-h` for defining the database host. That option defaults to `localhost`, but you are free to override that value if necessary.
 
 ### System Requirements
-This repository consists simply of csv data sheets, a shell script, and sql scripts that handle importing, merging, and exporting a dataset on General Aviation accident data. Thus, you only need a utility like Terminal or PowerShell to run the shell script and an installation of MySQL to handle the data conversion. 
+The current version of this repository consists simply of csv data sheets, a shell script, and sql scripts that handle importing, merging, and exporting a dataset on General Aviation accident data. Thus, you only need a utility like Terminal to run the shell script and MySQL to handle the data conversion. Specifically, users will need:
 
-There's a lot of options for getting MySQL working. If you're not sure if you have MySQL installed on your server or device, check with this command in Terminal or PowerShell:
+1. MySQL
+2. Sed (either the built-in Mac or GNU versions ought to work)
+
+If you're not sure if you have MySQL or Sed installed on your server or device, check with this command in Terminal:
 
 ```bash
 which mysql
+which sed
 ```
 
-This will return a path to the executable mysql file if it is properly installed.
+Each will return a path to its respective executable file, if it is properly installed.
 
-I won't lay out one specific option for installing MySQL; there are many options for doing so that documentation a few Google searches away will be more helpful for. You can use a package manager like [Homebrew](https://brew.sh/) to install and update MySQL, or you can use [MAMP](https://www.mamp.info/en/) to access a MySQL server complete with PhpMyAdmin.
+I won't lay out one specific option for installing MySQL; a few Google searches will turn up helpful documentation for doing so. You can use a package manager like [Homebrew](https://brew.sh/) to install and update MySQL, or you can use [MAMP](https://www.mamp.info/en/) to access a MySQL server complete with PhpMyAdmin.
 
 ## How You Can Contribute
 Daedalus is far from its ideal state; my hope is to provide a script that will download the latest version of the eADMS dataset, convert the MDB tables to MySQL, and then merge the MySQL tables to create a rich, working dataset that can be exported to a format friendly to R, Stata, and other statistical packages. Here's some tasks that you can submit a pull request for, if you are up to doing so:
 
-- [ ] Provide option in `cra.sh` that allows users to not enter mysql user password, if not needed. 
+- [X] Provide option in `cra.sh` that allows users to not enter mysql user password, if not needed. 
 - [ ] Download the latest version of the eADMS dataset with wget or curl.
 - [ ] Update the csv files in ntsb_mdb_export directory to reflect the latest release.
 - [ ] Convert all tables in the MDB format of the eADMS dataset, or csv exports of those tables, to MySQL tables. This [sample script](https://app.ntsb.gov/avdata/eadmspub.sql.txt) provided by the NTSB that promises to create a SQL Server version of the database was a useful guide as I worked with the six tables I successfully converted.
