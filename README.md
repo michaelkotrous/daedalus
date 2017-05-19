@@ -21,11 +21,11 @@ cd /path/to/daedalus
 
 All the options available to you when running the shell script `cra.sh` are:
 
-```bash
+```
 -d (required): mysql database name that must be created before running command.
 -u (required): mysql user that must have all privileges for database specified in option -d.
--h (optional): Database host name , Default value is 'localhost'.
--p (optional): boolean specifying if mysql user requires a password. Accepts TRUE or T if password is required and FALSE or F if password is not required. Default value is TRUE.
+-h (optional): database host name. Default value is 'localhost'.
+-p (optional): Set this option to FALSE or F if password is not required for the mysql user. By default, cra.sh expects a password for your mysql user.
 ```
 
 You will be prompted for the password of the MySQL user. Once entered, the remainder of the scripts will run, and you will finish with a csv export of the General Aviation accident dataset in the Daedalus project directory.
