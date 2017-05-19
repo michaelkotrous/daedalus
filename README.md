@@ -19,6 +19,15 @@ cd /path/to/daedalus
 ./cra.sh -u mysql_dbuser -d mysql_dbname
 ```
 
+All the options available to you when running the shell script `cra.sh` are:
+
+```bash
+-d (required): mysql database name that must be created before running command.
+-u (required): mysql user that must have all privileges for database specified in option -d.
+-h (optional): Database host name , Default value is 'localhost'.
+-p (optional): boolean specifying if mysql user requires a password. Accepts TRUE or T if password is required and FALSE or F if password is not required. Default value is TRUE.
+```
+
 You will be prompted for the password of the MySQL user. Once entered, the remainder of the scripts will run, and you will finish with a csv export of the General Aviation accident dataset in the Daedalus project directory.
 
 **Note:** The `cra.sh` shell script also accepts option `-h` for defining the database host. That option defaults to `localhost`, but you are free to override that value if necessary.
@@ -43,7 +52,6 @@ I won't lay out one specific option for installing MySQL; a few Google searches 
 ## How You Can Contribute
 Daedalus is far from its ideal state; my hope is to provide a script that will download the latest version of the eADMS dataset, convert the MDB tables to MySQL, and then merge the MySQL tables to create a rich, working dataset that can be exported to a format friendly to R, Stata, and other statistical packages. Here's some tasks that you can submit a pull request for, if you are up to doing so:
 
-- [X] Provide option in `cra.sh` that allows users to not enter mysql user password, if not needed. 
 - [ ] Download the latest version of the eADMS dataset with wget or curl.
 - [ ] Update the csv files in ntsb_mdb_export directory to reflect the latest release.
 - [ ] Convert all tables in the MDB format of the eADMS dataset, or csv exports of those tables, to MySQL tables. This [sample script](https://app.ntsb.gov/avdata/eadmspub.sql.txt) provided by the NTSB that promises to create a SQL Server version of the database was a useful guide as I worked with the six tables I successfully converted.
