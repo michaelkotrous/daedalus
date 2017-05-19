@@ -199,6 +199,7 @@ DROP VIEW IF EXISTS `flight_crew_pilot_binary`;
 CREATE VIEW flight_crew_pilot_binary as (
   SELECT 
     flight_crew.*, 
+    case when crew_category = "PLT" then crew_id end as pilot_id,
     case when crew_category = "PLT" then crew_category end as pilot_binary,
     case when crew_category = "PLT" then crew_no end as pilot_no,
     case when crew_category = "PLT" then crew_age end as pilot_age,
@@ -244,6 +245,7 @@ CREATE VIEW flight_crew_collapsed as (
   SELECT
     ev_id,
     aircraft_id,
+    group_concat(pilot_id) as pilot_id,
     group_concat(pilot_no) as pilot_no,
     group_concat(pilot_binary) as pilot_binary,
     group_concat(pilot_age) as pilot_age,
@@ -317,6 +319,7 @@ SELECT 'Merging aircraft table with data from pilots identified as first crew me
 UPDATE `aircraft`
 INNER JOIN `aircraft_single_pilot_crew_one` ON aircraft.aircraft_id = aircraft_single_pilot_crew_one.aircraft_id
 SET
+  aircraft.pilot_id = aircraft_single_pilot_crew_one.pilot_id,
   aircraft.pilot_no = aircraft_single_pilot_crew_one.pilot_no,
   aircraft.pilot_age = aircraft_single_pilot_crew_one.pilot_age,
   aircraft.pilot_sex = aircraft_single_pilot_crew_one.pilot_sex,

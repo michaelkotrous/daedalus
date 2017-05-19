@@ -4,6 +4,7 @@ CREATE TABLE `aircraft` (
   `ev_id` VARCHAR(14) NOT NULL,
   `aircraft_key` INT NOT NULL,
   `aircraft_id` VARCHAR(16) NOT NULL UNIQUE,
+  `pilot_id` VARCHAR(19) NOT NULL,
   `regis_no` VARCHAR(11) DEFAULT NULL,
   `ntsb_no` VARCHAR(11) NOT NULL UNIQUE,
   `acft_missing` CHAR(1) DEFAULT NULL,
