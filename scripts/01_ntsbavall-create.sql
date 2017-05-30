@@ -246,7 +246,7 @@ SET
   `elt_oper` = TRIM(NULLIF(@eltoper, '')),
   `elt_aided_loc_ev` = TRIM(NULLIF(@eltaidedlocev, '')),
   `elt_type` = TRIM(NULLIF(@elttype, '')),
-  `owner_acft` = TRIM(NULLIF(@owneracft, '')),
+  `owner_acft` = REPLACE(TRIM(NULLIF(@owneracft, '')), '"', '\''),
   `owner_street` = TRIM(NULLIF(@ownerstreet, '')),
   `owner_city` = TRIM(NULLIF(@ownercity, '')),
   `owner_state` = TRIM(NULLIF(@ownerstate, '')),
