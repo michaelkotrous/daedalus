@@ -45,6 +45,13 @@ This command will return a path to the executable file, if MySQL is properly ins
 
 I won't lay out one specific option for installing MySQL; a few Google searches will turn up helpful documentation for doing so. You can use a package manager like [Homebrew](https://brew.sh/) to install and update MySQL, or you can use [MAMP](https://www.mamp.info/en/) to access a MySQL server complete with PhpMyAdmin.
 
+### Importing into R
+```r
+# load data
+setwd("/path/to/daedalus")
+accidentdata <- read.table("aircraft-GAaccidents-final.csv", sep=",", header=T, na.strings="NULL")
+```
+
 ## How You Can Contribute
 Daedalus is far from its ideal state; my hope is to provide a script that will download the latest version of the eADMS dataset, convert the MDB tables to MySQL, and then merge the MySQL tables to create a rich, working dataset that can be exported to a format friendly to R, Stata, and other statistical packages. Here's some tasks that you can submit a pull request for, if you are up to doing so:
 
