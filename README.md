@@ -16,21 +16,21 @@ Create a MySQL database of any name of your choosing, and a database user with a
 
 ```bash
 cd /path/to/daedalus
-./cra.sh -u mysql_dbuser -d mysql_dbname
+./aircra.sh -u mysql_dbuser -d mysql_dbname
 ```
 
-All the options available to you when running the shell script `cra.sh` are:
+All the options available to you when running the shell script `aircra.sh` are:
 
 ```
 -d (required): mysql database name that must be created before running command.
 -u (required): mysql user that must have all privileges for database specified in option -d.
 -h (optional): database host name. Default value is 'localhost'.
--p (optional): Set this option to FALSE or F if password is not required for the mysql user. By default, cra.sh expects a password for your mysql user.
+-p (optional): Set this option to FALSE or F if password is not required for the mysql user. By default, aircra.sh expects a password for your mysql user.
 ```
 
 You will be prompted for the password of the MySQL user. Once entered, the remainder of the scripts will run, and you will finish with a csv export of the General Aviation accident dataset in the Daedalus project directory.
 
-**Note:** The `cra.sh` shell script also accepts option `-h` for defining the database host. That option defaults to `localhost`, but you are free to override that value if necessary.
+**Note:** The `aircra.sh` shell script also accepts option `-h` for defining the database host. That option defaults to `localhost`, but you are free to override that value if necessary.
 
 ### System Requirements
 The current version of this repository consists simply of csv data sheets, a shell script, and sql scripts that handle importing, merging, and exporting a dataset on General Aviation accident data. Thus, you only need a utility like Terminal to run the shell script and MySQL to handle the data conversion.
