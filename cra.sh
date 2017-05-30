@@ -56,8 +56,6 @@ else
       exit 1
     fi
 
-    echo 'Replace NULL values with empty fields for clean imports to R and Stata.'
-    sed -i'.bak' 's/,NULL/,/g' /tmp/aircraft-GAaccidents-final.csv
     echo 'Moving exported dataset to working directory.'
     mv /tmp/aircraft-GAaccidents-final.csv .
   fi

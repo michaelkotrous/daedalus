@@ -33,19 +33,15 @@ You will be prompted for the password of the MySQL user. Once entered, the remai
 **Note:** The `cra.sh` shell script also accepts option `-h` for defining the database host. That option defaults to `localhost`, but you are free to override that value if necessary.
 
 ### System Requirements
-The current version of this repository consists simply of csv data sheets, a shell script, and sql scripts that handle importing, merging, and exporting a dataset on General Aviation accident data. Thus, you only need a utility like Terminal to run the shell script and MySQL to handle the data conversion. Specifically, users will need:
+The current version of this repository consists simply of csv data sheets, a shell script, and sql scripts that handle importing, merging, and exporting a dataset on General Aviation accident data. Thus, you only need a utility like Terminal to run the shell script and MySQL to handle the data conversion.
 
-1. MySQL
-2. Sed (either the built-in Mac or GNU versions ought to work)
-
-If you're not sure if you have MySQL or Sed installed on your server or device, check with this command in Terminal:
+If you're not sure if you have MySQL installed on your server or device, check with this command in Terminal:
 
 ```bash
 which mysql
-which sed
 ```
 
-Each will return a path to its respective executable file, if it is properly installed.
+This command will return a path to the executable file, if MySQL is properly installed.
 
 I won't lay out one specific option for installing MySQL; a few Google searches will turn up helpful documentation for doing so. You can use a package manager like [Homebrew](https://brew.sh/) to install and update MySQL, or you can use [MAMP](https://www.mamp.info/en/) to access a MySQL server complete with PhpMyAdmin.
 
