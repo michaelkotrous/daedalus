@@ -56,7 +56,7 @@ else
       exit 1
     fi
 
-    echo 'Moving exported dataset to working directory.'
-    mv /tmp/aircraft-GAaccidents-final.csv .
+    echo 'Prepend exported dataset with header row containing column names.'
+    cat ./head.csv /tmp/aircraft-GAaccidents.csv > /tmp/aircraft-GAaccidents-final.csv && mv /tmp/aircraft-GAaccidents-final.csv . && rm /tmp/aircraft-GAaccidents.csv && echo 'Final dataset has been placed in the working directory.'
   fi
 fi
