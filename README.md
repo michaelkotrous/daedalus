@@ -52,6 +52,8 @@ setwd("/path/to/daedalus")
 accidentdata <- read.table("aircraft-GAaccidents-final.csv", sep=",", header=T, na.strings="NULL")
 ```
 
+**An issue has been detected with importing the data into R for Windows.** Until a fix is committed, please follow the instructions provided in the [issue thread](https://github.com/michaelkotrous/daedalus/issues/4#issuecomment-305215816). No problem has been detected with R running on MacOS.
+
 ## How You Can Contribute
 Daedalus is far from its ideal state; my hope is to provide a script that will download the latest version of the eADMS dataset, convert the MDB tables to MySQL, and then merge the MySQL tables to create a rich, working dataset that can be exported to a format friendly to R, Stata, and other statistical packages. Here's some tasks that you can submit a pull request for, if you are up to doing so:
 
