@@ -45,12 +45,16 @@ else
     then
       echo 'Copying csv data to tmp folder to prepare for MySQL import.'
       cp ./ntsb_mdb_export/*.csv /tmp/
-      cat ./scripts/*.sql | $MYSQL --host=$DBHOST -u$DBUSER $DATABASE --skip-column-names
+      cat ./scripts/01_ntsbavall-create.sql ./scripts/02_ntsbavall-merge.sql ./scripts/03_ntsbavall-GAaccidents_export.sql > /tmp/ntsbavall-scripts.sql
+      $MYSQL --host=$DBHOST -u$DBUSER $DATABASE --skip-column-names < /tmp/ntsbavall-scripts.sql
+      rm /tmp/ntsbavall-scripts.sql
     elif [[ "$PASS" = "TRUE" || "$PASS" = "T" ]]
     then
       echo 'Copying csv data to tmp folder to prepare for MySQL import.'
       cp ./ntsb_mdb_export/*.csv /tmp/
-      cat ./scripts/*.sql | $MYSQL --host=$DBHOST -u$DBUSER -p $DATABASE --skip-column-names
+      cat ./scripts/01_ntsbavall-create.sql ./scripts/02_ntsbavall-merge.sql ./scripts/03_ntsbavall-GAaccidents_export.sql > /tmp/ntsbavall-scripts.sql
+      $MYSQL --host=$DBHOST -u$DBUSER -p $DATABASE --skip-column-names < /tmp/ntsbavall-scripts.sql
+      rm /tmp/ntsbavall-scripts.sql
     else
       echo "Option -p only accepts TRUE (T) or FALSE (F) as arguments."
       exit 1
