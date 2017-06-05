@@ -9,7 +9,7 @@ The National Transportation Safety Board (NTSB) collects extensive data on all a
 The goal of the Daedalus project is to provide inspiration and even maybe the tools needed by researchers to convert and merge the NTSB eADMS dataset to a format that is better suited for answering their research questions regarding aviation accidents and incidents.
 
 ## Using Daedalus
-The first iteration of this repository will convert six eADMS tables into MySQL tables, merge those tables, and then export a dataset listing aircraft, pilot, time, and weather information on all General Aviation accidents between Jan. 1, 1982 and May 1, 2017 that involved fixed-wing airplanes.
+The first iteration of this repository will convert eight eADMS tables into MySQL tables, merge those tables, and then export a dataset listing aircraft, pilot, time, and weather information on all General Aviation accidents between Jan. 1, 1982 and May 1, 2017 that involved fixed-wing airplanes.
 
 ### Generating General Aviation Accident Data
 Create a MySQL database of any name of your choosing, and a database user with all privileges. See the subsection "System Requirements" below for more on installing MySQL. Then in Terminal:
