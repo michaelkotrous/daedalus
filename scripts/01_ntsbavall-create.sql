@@ -205,12 +205,12 @@ CREATE TABLE `aircraft` (
   `pilot_flight_hours_l90d_make` REAL DEFAULT NULL,
   `pilot_flight_hours_pic_make` REAL DEFAULT NULL,
   `pilot_flight_hours_totl_make` REAL DEFAULT NULL,
-  `occurence_no` TINYINT NOT NULL,
-  `occurence_code` INT NOT NULL,
+  `occurrence_no` TINYINT NOT NULL,
+  `occurrence_code` INT NOT NULL,
   `phase_of_flight` INT NOT NULL,
   `altitude` INT DEFAULT NULL,
-  `occurence_lchg_date` DATETIME DEFAULT NULL,
-  `occurence_lchg_userid` VARCHAR(18) DEFAULT NULL,
+  `occurrence_lchg_date` DATETIME DEFAULT NULL,
+  `occurrence_lchg_userid` VARCHAR(18) DEFAULT NULL,
   `seq_event_no` VARCHAR(44) NOT NULL,
   `group_code` VARCHAR(29) NOT NULL,
   `subj_code` VARCHAR(89) NOT NULL,
@@ -631,42 +631,42 @@ SET
   `flight_time_lchg_date` = DATE_FORMAT(STR_TO_DATE(TRIM(NULLIF(@lchgdate, '')), '%m/%d/%Y'), '%Y-%m-%d'),
   `flight_time_lchg_userid` = TRIM(NULLIF(@lchguserid, ''));
 
-SELECT 'Importing Occurences data';
-DROP TABLE IF EXISTS `occurences`;
-CREATE TABLE `occurences` (
+SELECT 'Importing occurrences data';
+DROP TABLE IF EXISTS `occurrences`;
+CREATE TABLE `occurrences` (
   `ev_id` VARCHAR(14) NOT NULL,
   `aircraft_key` INT NOT NULL,
   `aircraft_id` VARCHAR(16) NOT NULL,
-  `occurence_no` TINYINT NOT NULL,
-  `occurence_id` VARCHAR(19) NOT NULL,
-  `occurence_code` INT NOT NULL,
+  `occurrence_no` TINYINT NOT NULL,
+  `occurrence_id` VARCHAR(19) NOT NULL,
+  `occurrence_code` INT NOT NULL,
   `phase_of_flight` INT NOT NULL,
   `altitude` INT DEFAULT NULL,
-  `occurence_lchg_date` DATETIME DEFAULT NULL,
-  `occurence_lchg_userid` VARCHAR(18) DEFAULT NULL,
+  `occurrence_lchg_date` DATETIME DEFAULT NULL,
+  `occurrence_lchg_userid` VARCHAR(18) DEFAULT NULL,
   `seq_event_no` VARCHAR(44) NOT NULL,
   `group_code` VARCHAR(29) NOT NULL,
   `subj_code` VARCHAR(89) NOT NULL,
   `cause_factor` VARCHAR(29) DEFAULT NULL,
   `modifier_code` INT DEFAULT NULL,
   `person_code` INT DEFAULT NULL,
-  PRIMARY KEY (`occurence_id`)
+  PRIMARY KEY (`occurrence_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-LOAD DATA INFILE '/tmp/occurrences.csv' INTO TABLE `occurences`
+LOAD DATA INFILE '/tmp/occurrences.csv' INTO TABLE `occurrences`
 FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\r\n' IGNORE 1 LINES
-(@evid, @aircraftkey, @occurenceno, @occurencecode, @phaseofflight, @altitude, @lchgdate, @lchguserid)
+(@evid, @aircraftkey, @occurrenceno, @occurrencecode, @phaseofflight, @altitude, @lchgdate, @lchguserid)
 SET
   `ev_id` = TRIM(NULLIF(@evid, '')),
   `aircraft_key` = TRIM(NULLIF(@aircraftkey, '')),
   `aircraft_id` = CONCAT(@evid, '-', @aircraftkey),
-  `occurence_no` = TRIM(NULLIF(@occurenceno, '')),
-  `occurence_id` = CONCAT(@evid, '-', @aircraftkey, '-', @occurenceno),
-  `occurence_code` = TRIM(NULLIF(@occurencecode, '')),
+  `occurrence_no` = TRIM(NULLIF(@occurrenceno, '')),
+  `occurrence_id` = CONCAT(@evid, '-', @aircraftkey, '-', @occurrenceno),
+  `occurrence_code` = TRIM(NULLIF(@occurrencecode, '')),
   `phase_of_flight` = TRIM(NULLIF(@phaseofflight, '')),
   `altitude` = TRIM(NULLIF(@altitude, '')),
-  `occurence_lchg_date` = DATE_FORMAT(STR_TO_DATE(TRIM(NULLIF(@lchgdate, '')), '%m/%d/%Y'), '%Y-%m-%d'),
-  `occurence_lchg_userid` = TRIM(NULLIF(@lchguserid, ''));
+  `occurrence_lchg_date` = DATE_FORMAT(STR_TO_DATE(TRIM(NULLIF(@lchgdate, '')), '%m/%d/%Y'), '%Y-%m-%d'),
+  `occurrence_lchg_userid` = TRIM(NULLIF(@lchguserid, ''));
 
 SELECT 'Importing Sequence of Events data';
 DROP TABLE IF EXISTS `seq_of_events`;
@@ -674,8 +674,8 @@ CREATE TABLE `seq_of_events` (
   `ev_id` VARCHAR(14) NOT NULL,
   `aircraft_key` INT NOT NULL,
   `aircraft_id` VARCHAR(16) NOT NULL,
-  `occurence_no` TINYINT NOT NULL,
-  `occurence_id` VARCHAR(19) NOT NULL,
+  `occurrence_no` TINYINT NOT NULL,
+  `occurrence_id` VARCHAR(19) NOT NULL,
   `seq_event_no` INT NOT NULL,
   `seq_event_id` VARCHAR(22) NOT NULL,
   `group_code` SMALLINT NOT NULL,
@@ -689,15 +689,15 @@ CREATE TABLE `seq_of_events` (
 
 LOAD DATA INFILE '/tmp/seq_of_events.csv' INTO TABLE `seq_of_events`
 FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\r\n' IGNORE 1 LINES
-(@evid, @aircraftkey, @occurenceno, @seqeventno, @groupcode, @subjcode, @causefactor, @modifiercode, @personcode, @lchgdate, @lchguserid)
+(@evid, @aircraftkey, @occurrenceno, @seqeventno, @groupcode, @subjcode, @causefactor, @modifiercode, @personcode, @lchgdate, @lchguserid)
 SET
   `ev_id` = TRIM(NULLIF(@evid, '')),
   `aircraft_key` = TRIM(NULLIF(@aircraftkey, '')),
   `aircraft_id` = CONCAT(@evid, '-', @aircraftkey),
-  `occurence_no` = TRIM(NULLIF(@occurenceno, '')),
-  `occurence_id` = CONCAT(@evid, '-', @aircraftkey, '-', @occurenceno),
+  `occurrence_no` = TRIM(NULLIF(@occurrenceno, '')),
+  `occurrence_id` = CONCAT(@evid, '-', @aircraftkey, '-', @occurrenceno),
   `seq_event_no` = TRIM(NULLIF(@seqeventno, '')),
-  `seq_event_id` = CONCAT(@evid, '-', @aircraftkey, '-', @occurenceno, '-', @seqeventno),
+  `seq_event_id` = CONCAT(@evid, '-', @aircraftkey, '-', @occurrenceno, '-', @seqeventno),
   `group_code` = TRIM(NULLIF(@groupcode, '')),
   `subj_code` = TRIM(NULLIF(@subjcode, '')),
   `cause_factor` = TRIM(NULLIF(@causefactor, '')),

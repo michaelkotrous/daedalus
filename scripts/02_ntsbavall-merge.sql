@@ -116,7 +116,7 @@ SET
   flight_crew.flight_hours_pic_make = flight_time_pivoted.flight_hours_pic_make,
   flight_crew.flight_hours_totl_make = flight_time_pivoted.flight_hours_totl_make;
 
-SELECT 'Merging occurences table with sequence events identified as "cause of accident"';
+SELECT 'Merging occurrences table with sequence events identified as "cause of accident"';
 DROP VIEW IF EXISTS `seq_of_events_cause`;
 CREATE VIEW seq_of_events_cause as (
   SELECT * 
@@ -127,8 +127,8 @@ CREATE VIEW seq_of_events_cause as (
 DROP VIEW IF EXISTS `seq_of_events_collapsed`;
 CREATE VIEW seq_of_events_collapsed as (
   SELECT
-    min(occurence_no) as occurence_no,
-    occurence_id,
+    min(occurrence_no) as occurrence_no,
+    occurrence_id,
     group_concat(seq_event_no) as seq_event_no,
     group_concat(group_code) as group_code,
     group_concat(subj_code) as subj_code,
@@ -136,18 +136,18 @@ CREATE VIEW seq_of_events_collapsed as (
     group_concat(modifier_code) as modifier_code,
     group_concat(person_code) as person_code
   FROM seq_of_events_cause
-  GROUP BY occurence_id
+  GROUP BY occurrence_id
 );
 
-UPDATE `occurences`
-INNER JOIN `seq_of_events_collapsed` ON occurences.occurence_id = seq_of_events_collapsed.occurence_id
+UPDATE `occurrences`
+INNER JOIN `seq_of_events_collapsed` ON occurrences.occurrence_id = seq_of_events_collapsed.occurrence_id
 SET
-  occurences.seq_event_no = seq_of_events_collapsed.seq_event_no,
-  occurences.group_code = seq_of_events_collapsed.group_code,
-  occurences.subj_code = seq_of_events_collapsed.subj_code,
-  occurences.cause_factor = seq_of_events_collapsed.cause_factor,
-  occurences.modifier_code = seq_of_events_collapsed.modifier_code,
-  occurences.person_code = seq_of_events_collapsed.person_code;
+  occurrences.seq_event_no = seq_of_events_collapsed.seq_event_no,
+  occurrences.group_code = seq_of_events_collapsed.group_code,
+  occurrences.subj_code = seq_of_events_collapsed.subj_code,
+  occurrences.cause_factor = seq_of_events_collapsed.cause_factor,
+  occurrences.modifier_code = seq_of_events_collapsed.modifier_code,
+  occurrences.person_code = seq_of_events_collapsed.person_code;
 
 SELECT 'Merging aircraft table with events data';
 UPDATE `aircraft`
@@ -227,43 +227,43 @@ SET
   aircraft.wx_brief_src = events.wx_brief_src,
   aircraft.wx_cond = events.wx_cond;
 
-SELECT 'Merging aircraft table with occurences data';
-DROP VIEW IF EXISTS `occurences_collapsed`;
-CREATE VIEW occurences_collapsed as (
+SELECT 'Merging aircraft table with occurrences data';
+DROP VIEW IF EXISTS `occurrences_collapsed`;
+CREATE VIEW occurrences_collapsed as (
   SELECT
     aircraft_id,
-    occurence_no,
-    occurence_code,
+    occurrence_no,
+    occurrence_code,
     phase_of_flight,
     altitude,
-    occurence_lchg_date,
-    occurence_lchg_userid,
+    occurrence_lchg_date,
+    occurrence_lchg_userid,
     seq_event_no,
     group_code,
     subj_code,
     cause_factor,
     modifier_code,
     person_code
-  FROM occurences
+  FROM occurrences
   WHERE `cause_factor` IS NOT NULL
   GROUP BY aircraft_id
 );
 
 UPDATE `aircraft`
-INNER JOIN `occurences_collapsed` ON aircraft.aircraft_id = occurences_collapsed.aircraft_id
+INNER JOIN `occurrences_collapsed` ON aircraft.aircraft_id = occurrences_collapsed.aircraft_id
 SET
-  aircraft.occurence_no = occurences_collapsed.occurence_no,
-  aircraft.occurence_code = occurences_collapsed.occurence_code,
-  aircraft.phase_of_flight = occurences_collapsed.phase_of_flight,
-  aircraft.altitude = occurences_collapsed.altitude,
-  aircraft.occurence_lchg_date = occurences_collapsed.occurence_lchg_date,
-  aircraft.occurence_lchg_userid = occurences_collapsed.occurence_lchg_userid,
-  aircraft.seq_event_no = occurences_collapsed.seq_event_no,
-  aircraft.group_code = occurences_collapsed.group_code,
-  aircraft.subj_code = occurences_collapsed.subj_code,
-  aircraft.cause_factor = occurences_collapsed.cause_factor,
-  aircraft.modifier_code = occurences_collapsed.modifier_code,
-  aircraft.person_code = occurences_collapsed.person_code;
+  aircraft.occurrence_no = occurrences_collapsed.occurrence_no,
+  aircraft.occurrence_code = occurrences_collapsed.occurrence_code,
+  aircraft.phase_of_flight = occurrences_collapsed.phase_of_flight,
+  aircraft.altitude = occurrences_collapsed.altitude,
+  aircraft.occurrence_lchg_date = occurrences_collapsed.occurrence_lchg_date,
+  aircraft.occurrence_lchg_userid = occurrences_collapsed.occurrence_lchg_userid,
+  aircraft.seq_event_no = occurrences_collapsed.seq_event_no,
+  aircraft.group_code = occurrences_collapsed.group_code,
+  aircraft.subj_code = occurrences_collapsed.subj_code,
+  aircraft.cause_factor = occurrences_collapsed.cause_factor,
+  aircraft.modifier_code = occurrences_collapsed.modifier_code,
+  aircraft.person_code = occurrences_collapsed.person_code;
 
 SELECT 'Collapsing flight crew table to include only pilots';
 DROP VIEW IF EXISTS `flight_crew_pilot_binary`;
@@ -443,4 +443,4 @@ DROP VIEW IF EXISTS `aircraft_multiple_pilots`;
 DROP VIEW IF EXISTS `aircraft_null_pilots`;
 DROP VIEW IF EXISTS `seq_of_events_cause`;
 DROP VIEW IF EXISTS `seq_of_events_collapsed`;
-DROP VIEW IF EXISTS `occurences_collapsed`;
+DROP VIEW IF EXISTS `occurrences_collapsed`;
