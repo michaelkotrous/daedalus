@@ -7,5 +7,7 @@ The General Aviation accident dataset uses data from six tables defined in the M
 * Flight Crew
 * Flight Time
 * Detailed Flight Crew data
+* Occurrences
+* Sequence of Events
 
 The variables available in each table, and the way they relate to one another, is described in this [NTSB document](https://app.ntsb.gov/avdata/eadmspub.pdf). The columns of data made available in the "detailed" tables are listed in full in this [NTSB document](https://app.ntsb.gov/avdata/Mult_Response.pdf).

@@ -205,6 +205,18 @@ CREATE TABLE `aircraft` (
   `pilot_flight_hours_l90d_make` REAL DEFAULT NULL,
   `pilot_flight_hours_pic_make` REAL DEFAULT NULL,
   `pilot_flight_hours_totl_make` REAL DEFAULT NULL,
+  `occurrence_no` TINYINT NOT NULL,
+  `occurrence_code` INT NOT NULL,
+  `phase_of_flight` INT NOT NULL,
+  `altitude` INT DEFAULT NULL,
+  `occurrence_lchg_date` DATETIME DEFAULT NULL,
+  `occurrence_lchg_userid` VARCHAR(18) DEFAULT NULL,
+  `seq_event_no` VARCHAR(44) NOT NULL,
+  `group_code` VARCHAR(29) NOT NULL,
+  `subj_code` VARCHAR(89) NOT NULL,
+  `cause_factor` VARCHAR(29) DEFAULT NULL,
+  `modifier_code` INT DEFAULT NULL,
+  `person_code` INT DEFAULT NULL,
   PRIMARY KEY (`aircraft_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
@@ -618,3 +630,78 @@ SET
   `flight_hours` = TRIM(NULLIF(@flighthours, '')),
   `flight_time_lchg_date` = DATE_FORMAT(STR_TO_DATE(TRIM(NULLIF(@lchgdate, '')), '%m/%d/%Y'), '%Y-%m-%d'),
   `flight_time_lchg_userid` = TRIM(NULLIF(@lchguserid, ''));
+
+SELECT 'Importing Occurrences data';
+DROP TABLE IF EXISTS `occurrences`;
+CREATE TABLE `occurrences` (
+  `ev_id` VARCHAR(14) NOT NULL,
+  `aircraft_key` INT NOT NULL,
+  `aircraft_id` VARCHAR(16) NOT NULL,
+  `occurrence_no` TINYINT NOT NULL,
+  `occurrence_id` VARCHAR(19) NOT NULL,
+  `occurrence_code` INT NOT NULL,
+  `phase_of_flight` INT NOT NULL,
+  `altitude` INT DEFAULT NULL,
+  `occurrence_lchg_date` DATETIME DEFAULT NULL,
+  `occurrence_lchg_userid` VARCHAR(18) DEFAULT NULL,
+  `seq_event_no` VARCHAR(44) NOT NULL,
+  `group_code` VARCHAR(29) NOT NULL,
+  `subj_code` VARCHAR(89) NOT NULL,
+  `cause_factor` VARCHAR(29) DEFAULT NULL,
+  `modifier_code` INT DEFAULT NULL,
+  `person_code` INT DEFAULT NULL,
+  PRIMARY KEY (`occurrence_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8;
+
+LOAD DATA INFILE '/tmp/occurrences.csv' INTO TABLE `occurrences`
+FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\r\n' IGNORE 1 LINES
+(@evid, @aircraftkey, @occurrenceno, @occurrencecode, @phaseofflight, @altitude, @lchgdate, @lchguserid)
+SET
+  `ev_id` = TRIM(NULLIF(@evid, '')),
+  `aircraft_key` = TRIM(NULLIF(@aircraftkey, '')),
+  `aircraft_id` = CONCAT(@evid, '-', @aircraftkey),
+  `occurrence_no` = TRIM(NULLIF(@occurrenceno, '')),
+  `occurrence_id` = CONCAT(@evid, '-', @aircraftkey, '-', @occurrenceno),
+  `occurrence_code` = TRIM(NULLIF(@occurrencecode, '')),
+  `phase_of_flight` = TRIM(NULLIF(@phaseofflight, '')),
+  `altitude` = TRIM(NULLIF(@altitude, '')),
+  `occurrence_lchg_date` = DATE_FORMAT(STR_TO_DATE(TRIM(NULLIF(@lchgdate, '')), '%m/%d/%Y'), '%Y-%m-%d'),
+  `occurrence_lchg_userid` = TRIM(NULLIF(@lchguserid, ''));
+
+SELECT 'Importing Sequence of Events data';
+DROP TABLE IF EXISTS `seq_of_events`;
+CREATE TABLE `seq_of_events` (
+  `ev_id` VARCHAR(14) NOT NULL,
+  `aircraft_key` INT NOT NULL,
+  `aircraft_id` VARCHAR(16) NOT NULL,
+  `occurrence_no` TINYINT NOT NULL,
+  `occurrence_id` VARCHAR(19) NOT NULL,
+  `seq_event_no` INT NOT NULL,
+  `seq_event_id` VARCHAR(22) NOT NULL,
+  `group_code` SMALLINT NOT NULL,
+  `subj_code` INT NOT NULL,
+  `cause_factor` CHAR(1) DEFAULT NULL,
+  `modifier_code` INT DEFAULT NULL,
+  `person_code` INT DEFAULT NULL,
+  `seq_events_lchg_date` DATETIME DEFAULT NULL,
+  `seq_events_lchg_userid` VARCHAR(18) DEFAULT NULL
+) ENGINE = InnoDB DEFAULT CHARSET = utf8;
+
+LOAD DATA INFILE '/tmp/seq_of_events.csv' INTO TABLE `seq_of_events`
+FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\r\n' IGNORE 1 LINES
+(@evid, @aircraftkey, @occurrenceno, @seqeventno, @groupcode, @subjcode, @causefactor, @modifiercode, @personcode, @lchgdate, @lchguserid)
+SET
+  `ev_id` = TRIM(NULLIF(@evid, '')),
+  `aircraft_key` = TRIM(NULLIF(@aircraftkey, '')),
+  `aircraft_id` = CONCAT(@evid, '-', @aircraftkey),
+  `occurrence_no` = TRIM(NULLIF(@occurrenceno, '')),
+  `occurrence_id` = CONCAT(@evid, '-', @aircraftkey, '-', @occurrenceno),
+  `seq_event_no` = TRIM(NULLIF(@seqeventno, '')),
+  `seq_event_id` = CONCAT(@evid, '-', @aircraftkey, '-', @occurrenceno, '-', @seqeventno),
+  `group_code` = TRIM(NULLIF(@groupcode, '')),
+  `subj_code` = TRIM(NULLIF(@subjcode, '')),
+  `cause_factor` = TRIM(NULLIF(@causefactor, '')),
+  `modifier_code` = TRIM(NULLIF(@modifiercode, '')),
+  `person_code` = TRIM(NULLIF(@personcode, '')),
+  `seq_events_lchg_date` = DATE_FORMAT(STR_TO_DATE(TRIM(NULLIF(@lchgdate, '')), '%m/%d/%Y'), '%Y-%m-%d'),
+  `seq_events_lchg_userid` = TRIM(NULLIF(@lchguserid, ''));
