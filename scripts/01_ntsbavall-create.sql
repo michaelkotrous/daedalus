@@ -211,10 +211,10 @@ CREATE TABLE `aircraft` (
   `altitude` INT DEFAULT NULL,
   `occurence_lchg_date` DATETIME DEFAULT NULL,
   `occurence_lchg_userid` VARCHAR(18) DEFAULT NULL,
-  `seq_event_no` INT NOT NULL,
-  `group_code` SMALLINT NOT NULL,
-  `subj_code` INT NOT NULL,
-  `cause_factor` CHAR(1) DEFAULT NULL,
+  `seq_event_no` VARCHAR(44) NOT NULL,
+  `group_code` VARCHAR(29) NOT NULL,
+  `subj_code` VARCHAR(89) NOT NULL,
+  `cause_factor` VARCHAR(29) DEFAULT NULL,
   `modifier_code` INT DEFAULT NULL,
   `person_code` INT DEFAULT NULL,
   PRIMARY KEY (`aircraft_id`)
@@ -644,24 +644,23 @@ CREATE TABLE `occurences` (
   `altitude` INT DEFAULT NULL,
   `occurence_lchg_date` DATETIME DEFAULT NULL,
   `occurence_lchg_userid` VARCHAR(18) DEFAULT NULL,
-  `seq_event_no` INT NOT NULL,
-  `seq_event_id` VARCHAR(22) NOT NULL,
-  `group_code` SMALLINT NOT NULL,
-  `subj_code` INT NOT NULL,
-  `cause_factor` CHAR(1) DEFAULT NULL,
+  `seq_event_no` VARCHAR(44) NOT NULL,
+  `group_code` VARCHAR(29) NOT NULL,
+  `subj_code` VARCHAR(89) NOT NULL,
+  `cause_factor` VARCHAR(29) DEFAULT NULL,
   `modifier_code` INT DEFAULT NULL,
   `person_code` INT DEFAULT NULL,
   PRIMARY KEY (`occurence_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-LOAD DATA INFILE '/tmp/occurences.csv' INTO TABLE `occurences`
+LOAD DATA INFILE '/tmp/occurrences.csv' INTO TABLE `occurences`
 FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\r\n' IGNORE 1 LINES
 (@evid, @aircraftkey, @occurenceno, @occurencecode, @phaseofflight, @altitude, @lchgdate, @lchguserid)
 SET
   `ev_id` = TRIM(NULLIF(@evid, '')),
   `aircraft_key` = TRIM(NULLIF(@aircraftkey, '')),
   `aircraft_id` = CONCAT(@evid, '-', @aircraftkey),
-  `occurence_no` = TRIM(NULLIF(@occurenceno), ''),
+  `occurence_no` = TRIM(NULLIF(@occurenceno, '')),
   `occurence_id` = CONCAT(@evid, '-', @aircraftkey, '-', @occurenceno),
   `occurence_code` = TRIM(NULLIF(@occurencecode, '')),
   `phase_of_flight` = TRIM(NULLIF(@phaseofflight, '')),
@@ -685,8 +684,7 @@ CREATE TABLE `seq_of_events` (
   `modifier_code` INT DEFAULT NULL,
   `person_code` INT DEFAULT NULL,
   `seq_events_lchg_date` DATETIME DEFAULT NULL,
-  `seq_events_lchg_userid` VARCHAR(18) DEFAULT NULL,
-  PRIMARY KEY (`seq_event_id`)
+  `seq_events_lchg_userid` VARCHAR(18) DEFAULT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
 LOAD DATA INFILE '/tmp/seq_of_events.csv' INTO TABLE `seq_of_events`
@@ -696,10 +694,10 @@ SET
   `ev_id` = TRIM(NULLIF(@evid, '')),
   `aircraft_key` = TRIM(NULLIF(@aircraftkey, '')),
   `aircraft_id` = CONCAT(@evid, '-', @aircraftkey),
-  `occurence_no` = TRIM(NULLIF(@occurenceno), ''),
+  `occurence_no` = TRIM(NULLIF(@occurenceno, '')),
   `occurence_id` = CONCAT(@evid, '-', @aircraftkey, '-', @occurenceno),
   `seq_event_no` = TRIM(NULLIF(@seqeventno, '')),
-  `seq_event_id` = CONCAT(@evid, '-', @aircraftkey, '-', @occurenceno, '-', @seqeventno)
+  `seq_event_id` = CONCAT(@evid, '-', @aircraftkey, '-', @occurenceno, '-', @seqeventno),
   `group_code` = TRIM(NULLIF(@groupcode, '')),
   `subj_code` = TRIM(NULLIF(@subjcode, '')),
   `cause_factor` = TRIM(NULLIF(@causefactor, '')),

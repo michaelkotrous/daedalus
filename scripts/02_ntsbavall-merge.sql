@@ -116,17 +116,18 @@ SET
   flight_crew.flight_hours_pic_make = flight_time_pivoted.flight_hours_pic_make,
   flight_crew.flight_hours_totl_make = flight_time_pivoted.flight_hours_totl_make;
 
-SELECT 'Merging occurences table with sequence events identified as "cause of accident"'
+SELECT 'Merging occurences table with sequence events identified as "cause of accident"';
 DROP VIEW IF EXISTS `seq_of_events_cause`;
 CREATE VIEW seq_of_events_cause as (
-  SELECT seq_of_events.*, 
-  FROM flight_crew
+  SELECT * 
+  FROM seq_of_events
   WHERE cause_factor = "C"
 );
 
 DROP VIEW IF EXISTS `seq_of_events_collapsed`;
 CREATE VIEW seq_of_events_collapsed as (
   SELECT
+    min(occurence_no) as occurence_no,
     occurence_id,
     group_concat(seq_event_no) as seq_event_no,
     group_concat(group_code) as group_code,
@@ -146,7 +147,7 @@ SET
   occurences.subj_code = seq_of_events_collapsed.subj_code,
   occurences.cause_factor = seq_of_events_collapsed.cause_factor,
   occurences.modifier_code = seq_of_events_collapsed.modifier_code,
-  occurences.person_code = seq_of_events_collapsed.person_code
+  occurences.person_code = seq_of_events_collapsed.person_code;
 
 SELECT 'Merging aircraft table with events data';
 UPDATE `aircraft`
@@ -226,28 +227,25 @@ SET
   aircraft.wx_brief_src = events.wx_brief_src,
   aircraft.wx_cond = events.wx_cond;
 
-SELECT 'Merging aircraft table with occurences data'
+SELECT 'Merging aircraft table with occurences data';
 DROP VIEW IF EXISTS `occurences_collapsed`;
 CREATE VIEW occurences_collapsed as (
   SELECT
     aircraft_id,
-    group_concat(occurence_no) as occurence_no,
-    group_concat(occurence_code) as occurence_code,
-    group_concat(phase_of_flight) as phase_of_flight,
-    group_concat(altitude) as altitude,
-    group_concat(occurence_lchg_date) as occurence_lchg_date,
-    group_concat(occurence_lchg_userid) as occurence_lchg_userid,
-    group_concat(seq_event_no) as seq_event_no,
-    group_concat(group_code) as group_code,
-    group_concat(subj_code) as subj_code,
-    group_concat(cause_factor) as cause_factor,
-    group_concat(modifier_code) as modifier_code,
-    group_concat(person_code) as person_code
+    occurence_no,
+    occurence_code,
+    phase_of_flight,
+    altitude,
+    occurence_lchg_date,
+    occurence_lchg_userid,
+    seq_event_no,
+    group_code,
+    subj_code,
+    cause_factor,
+    modifier_code,
+    person_code
   FROM occurences
-  WHERE `cause_factor` IS NOT NULL AND `occurence_id` IN (
-    SELECT `occurence_id`
-    FROM `seq_of_events_collapsed`
-  )
+  WHERE `cause_factor` IS NOT NULL
   GROUP BY aircraft_id
 );
 
@@ -440,6 +438,9 @@ DROP VIEW IF EXISTS `flight_time_pivoted`;
 DROP VIEW IF EXISTS `flight_crew_pilot_binary`;
 DROP VIEW IF EXISTS `flight_crew_collapsed`;
 DROP VIEW IF EXISTS `aircraft_single_pilot`;
--- DROP VIEW IF EXISTS `aircraft_single_pilot_crew_one`;
+DROP VIEW IF EXISTS `aircraft_single_pilot_crew_one`;
 DROP VIEW IF EXISTS `aircraft_multiple_pilots`;
 DROP VIEW IF EXISTS `aircraft_null_pilots`;
+DROP VIEW IF EXISTS `seq_of_events_cause`;
+DROP VIEW IF EXISTS `seq_of_events_collapsed`;
+DROP VIEW IF EXISTS `occurences_collapsed`;
