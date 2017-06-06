@@ -631,7 +631,7 @@ SET
   `flight_time_lchg_date` = DATE_FORMAT(STR_TO_DATE(TRIM(NULLIF(@lchgdate, '')), '%m/%d/%Y'), '%Y-%m-%d'),
   `flight_time_lchg_userid` = TRIM(NULLIF(@lchguserid, ''));
 
-SELECT 'Importing occurrences data';
+SELECT 'Importing Occurrences data';
 DROP TABLE IF EXISTS `occurrences`;
 CREATE TABLE `occurrences` (
   `ev_id` VARCHAR(14) NOT NULL,
