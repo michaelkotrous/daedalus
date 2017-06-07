@@ -2,27 +2,26 @@ SELECT 'Clean data to correct for coding errors and generate variables for analy
 -- NTSB does not enter zeroes for event total fatalities and total injuries,
 -- but variable `ev_highest_injury` lets us distinguish which events actually
 -- had zero injuries or zero fatalities, and which are actually NULL. 
-UPDATE `aircraft` SET `inj_tot_f` = 0 WHERE `ev_highest_injury` IS NOT NULL AND `inj_tot_f` IS NULL
-UPDATE `aircraft` SET `inj_tot_t` = 0 WHERE `ev_highest_injury` = 'NONE'
+UPDATE `aircraft` SET `inj_tot_f` = 0 WHERE `ev_highest_injury` IS NOT NULL AND `inj_tot_f` IS NULL;
+UPDATE `aircraft` SET `inj_tot_t` = 0 WHERE `ev_highest_injury` = 'NONE';
 
 -- Create binary variable indicating if pilot has airplane instrument rating, or not.
-ALTER TABLE `aircraft` ADD COLUMN `pilot_rat_instrum_apln` TINYINT DEFAULT NULL AFTER `pilot_rat_instrum`
-UPDATE `aircraft` SET `pilot_rat_instrum_apln` = 1 WHERE INSTR(`pilot_rat_instrum`, 'APLN') > 0
-UPDATE `aircraft` SET `pilot_rat_instrum_apln` = 0 WHERE INSTR(`pilot_rat_instrum`, 'APLN') = 0 OR INSTR(`pilot_rat_instrum`, 'NONE') > 0
+ALTER TABLE `aircraft` ADD COLUMN `pilot_rat_instrum_apln` TINYINT DEFAULT NULL AFTER `pilot_rat_instrum`;
+UPDATE `aircraft` SET `pilot_rat_instrum_apln` = 1 WHERE INSTR(`pilot_rat_instrum`, 'APLN') > 0;
+UPDATE `aircraft` SET `pilot_rat_instrum_apln` = 0 WHERE INSTR(`pilot_rat_instrum`, 'APLN') = 0 OR INSTR(`pilot_rat_instrum`, 'NONE') > 0;
 -- Some entries are miscoded, listing "NONE" rating with another rating, which is not possible
 -- We will set these entries to NULL, lest they muddy up our analysis
-UPDATE `aircraft` SET `pilot_rat_instrum_apln` = NULL WHERE INSTR(`pilot_rat_instrum`, ',NONE') > 0 OR INSTR(`pilot_rat_instrum`, 'NONE,') > 0
+UPDATE `aircraft` SET `pilot_rat_instrum_apln` = NULL WHERE INSTR(`pilot_rat_instrum`, ',NONE') > 0 OR INSTR(`pilot_rat_instrum`, 'NONE,') > 0;
 
 -- Record if pilot is rated for single-engine, multi-engine, both, or no airplanes 
-ALTER TABLE `aircraft` ADD COLUMN `pilot_rat_airpln_engine` CHAR(4) DEFAULT NULL AFTER `pilot_rat_airpln`
-UPDATE `aircraft` SET `pilot_rat_airpln_engine` = "SENG" WHERE INSTR(`pilot_rat_airpln`, 'SEL') > 0 OR INSTR(`pilot_rat_airpln`, 'SES') > 0
-UPDATE `aircraft` SET `pilot_rat_airpln_engine` = "MENG" WHERE INSTR(`pilot_rat_airpln`, 'MEL') > 0 OR INSTR(`pilot_rat_airpln`, 'MES') > 0
-UPDATE `aircraft` SET `pilot_rat_airpln_engine` = "BOTH" WHERE (INSTR(`pilot_rat_airpln`, 'SEL') > 0 OR INSTR(`pilot_rat_airpln`, 'SES') > 0) AND (INSTR(`pilot_rat_airpln`, 'MEL') > 0 OR INSTR(`pilot_rat_airpln`, 'MES') > 0)
-UPDATE `aircraft` SET `pilot_rat_airpln_engine` = "NONE" WHERE (INSTR(`pilot_rat_airpln`, 'SEL') = 0 AND INSTR(`pilot_rat_airpln`, 'SES') = 0 AND INSTR(`pilot_rat_airpln`, 'MEL') = 0 AND INSTR(`pilot_rat_airpln`, 'MES') = 0) OR INSTR(`pilot_rat_instrum`, 'NONE') > 0
+ALTER TABLE `aircraft` ADD COLUMN `pilot_rat_airpln_engine` CHAR(4) DEFAULT NULL AFTER `pilot_rat_airpln`;
+UPDATE `aircraft` SET `pilot_rat_airpln_engine` = "SENG" WHERE INSTR(`pilot_rat_airpln`, 'SEL') > 0 OR INSTR(`pilot_rat_airpln`, 'SES') > 0;
+UPDATE `aircraft` SET `pilot_rat_airpln_engine` = "MENG" WHERE INSTR(`pilot_rat_airpln`, 'MEL') > 0 OR INSTR(`pilot_rat_airpln`, 'MES') > 0;
+UPDATE `aircraft` SET `pilot_rat_airpln_engine` = "BOTH" WHERE (INSTR(`pilot_rat_airpln`, 'SEL') > 0 OR INSTR(`pilot_rat_airpln`, 'SES') > 0) AND (INSTR(`pilot_rat_airpln`, 'MEL') > 0 OR INSTR(`pilot_rat_airpln`, 'MES') > 0);
+UPDATE `aircraft` SET `pilot_rat_airpln_engine` = "NONE" WHERE (INSTR(`pilot_rat_airpln`, 'SEL') = 0 AND INSTR(`pilot_rat_airpln`, 'SES') = 0 AND INSTR(`pilot_rat_airpln`, 'MEL') = 0 AND INSTR(`pilot_rat_airpln`, 'MES') = 0) OR INSTR(`pilot_rat_instrum`, 'NONE') > 0;
 -- Some entries are miscoded, listing "NONE" rating with another rating, which is not possible
 -- We will set these entries to NULL, lest they muddy up our analysis
-UPDATE `aircraft` SET `pilot_rat_airpln_engine` = NULL WHERE INSTR(`pilot_rat_airpln`, ',NONE') > 0 OR INSTR(`pilot_rat_airpln`, 'NONE,') > 0
-
+UPDATE `aircraft` SET `pilot_rat_airpln_engine` = NULL WHERE INSTR(`pilot_rat_airpln`, ',NONE') > 0 OR INSTR(`pilot_rat_airpln`, 'NONE,') > 0;
 
 SELECT 'Select final aircraft data for GA accidents';
 DROP VIEW IF EXISTS `aircraft_ga_accidents`;
