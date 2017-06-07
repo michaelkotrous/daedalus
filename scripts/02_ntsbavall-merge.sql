@@ -124,6 +124,10 @@ CREATE VIEW seq_of_events_cause as (
   WHERE cause_factor = "C"
 );
 
+-- Occurrences are numbered in chronological order, 
+-- so selecting minimum occurrence number corresponds 
+-- with selecting earliest occurrence with identified 
+-- "cause" in sequence.
 DROP VIEW IF EXISTS `seq_of_events_collapsed`;
 CREATE VIEW seq_of_events_collapsed as (
   SELECT
@@ -293,6 +297,15 @@ CREATE VIEW flight_crew_pilot_binary as (
     case when crew_category = "PLT" then ft_as_of end as pilot_ft_as_of,
     case when crew_category = "PLT" then flight_crew_lchg_date end as pilot_flight_crew_lchg_date,
     case when crew_category = "PLT" then flight_crew_lchg_userid end as pilot_flight_crew_lchg_userid,
+    case when crew_category = "PLT" then seat_occ_row end as pilot_seat_occ_row,
+    case when crew_category = "PLT" then infl_rest_inst end as pilot_infl_rest_inst,
+    case when crew_category = "PLT" then infl_rest_depl end as pilot_infl_rest_depl,
+    case when crew_category = "PLT" then child_restraint end as pilot_child_restraint,
+    case when crew_category = "PLT" then med_crtf_limit end as pilot_med_crtf_limit,
+    case when crew_category = "PLT" then mr_faa_med_certf end as pilot_mr_faa_med_certf,
+    case when crew_category = "PLT" then pilot_flying end as pilot_pilot_flying,
+    case when crew_category = "PLT" then available_restraint end as pilot_available_restraint,
+    case when crew_category = "PLT" then restraint_used end as pilot_restraint_used,
     case when crew_category = "PLT" then crew_cert_code end as pilot_cert_code,
     case when crew_category = "PLT" then crew_rat_airpln end as pilot_rat_airpln,
     case when crew_category = "PLT" then crew_rat_instruct end as pilot_rat_instruct,
@@ -339,6 +352,15 @@ CREATE VIEW flight_crew_collapsed as (
     group_concat(pilot_ft_as_of) as pilot_ft_as_of,
     group_concat(pilot_flight_crew_lchg_date) as pilot_flight_crew_lchg_date,
     group_concat(pilot_flight_crew_lchg_userid) as pilot_flight_crew_lchg_userid,
+    group_concat(pilot_seat_occ_row) as pilot_seat_occ_row,
+    group_concat(pilot_infl_rest_inst) as pilot_infl_rest_inst,
+    group_concat(pilot_infl_rest_depl) as pilot_infl_rest_depl,
+    group_concat(pilot_child_restraint) as pilot_child_restraint,
+    group_concat(pilot_med_crtf_limit) as pilot_med_crtf_limit,
+    group_concat(pilot_mr_faa_med_certf) as pilot_mr_faa_med_certf,
+    group_concat(pilot_pilot_flying) as pilot_pilot_flying,
+    group_concat(pilot_available_restraint) as pilot_available_restraint,
+    group_concat(pilot_restraint_used) as pilot_restraint_used,
     group_concat(pilot_cert_code) as pilot_cert_code,
     group_concat(pilot_rat_airpln) as pilot_rat_airpln,
     group_concat(pilot_rat_instruct) as pilot_rat_instruct,
@@ -387,6 +409,8 @@ CREATE VIEW aircraft_null_pilots as (
 );
 
 SELECT 'Merging aircraft table with data from pilots identified as first crew member';
+-- According to NTSB's data dictionary, "[Crew] numbers are assigned sequentially 
+-- starting with 1, which usually represents the pilot."
 UPDATE `aircraft`
 INNER JOIN `aircraft_single_pilot_crew_one` ON aircraft.aircraft_id = aircraft_single_pilot_crew_one.aircraft_id
 SET
@@ -412,6 +436,15 @@ SET
   aircraft.pilot_ft_as_of = aircraft_single_pilot_crew_one.pilot_ft_as_of,
   aircraft.pilot_flight_crew_lchg_date = aircraft_single_pilot_crew_one.pilot_flight_crew_lchg_date,
   aircraft.pilot_flight_crew_lchg_userid = aircraft_single_pilot_crew_one.pilot_flight_crew_lchg_userid,
+  aircraft.pilot_seat_occ_row = aircraft_single_pilot_crew_one.pilot_seat_occ_row,
+  aircraft.pilot_infl_rest_inst = aircraft_single_pilot_crew_one.pilot_infl_rest_inst,
+  aircraft.pilot_infl_rest_depl = aircraft_single_pilot_crew_one.pilot_infl_rest_depl,
+  aircraft.pilot_child_restraint = aircraft_single_pilot_crew_one.pilot_child_restraint,
+  aircraft.pilot_med_crtf_limit = aircraft_single_pilot_crew_one.pilot_med_crtf_limit,
+  aircraft.pilot_mr_faa_med_certf = aircraft_single_pilot_crew_one.pilot_mr_faa_med_certf,
+  aircraft.pilot_pilot_flying = aircraft_single_pilot_crew_one.pilot_pilot_flying,
+  aircraft.pilot_available_restraint = aircraft_single_pilot_crew_one.pilot_available_restraint,
+  aircraft.pilot_restraint_used = aircraft_single_pilot_crew_one.pilot_restraint_used,
   aircraft.pilot_cert_code = aircraft_single_pilot_crew_one.pilot_cert_code,
   aircraft.pilot_rat_airpln = aircraft_single_pilot_crew_one.pilot_rat_airpln,
   aircraft.pilot_rat_instruct = aircraft_single_pilot_crew_one.pilot_rat_instruct,
@@ -441,6 +474,6 @@ DROP VIEW IF EXISTS `aircraft_single_pilot`;
 DROP VIEW IF EXISTS `aircraft_single_pilot_crew_one`;
 DROP VIEW IF EXISTS `aircraft_multiple_pilots`;
 DROP VIEW IF EXISTS `aircraft_null_pilots`;
-DROP VIEW IF EXISTS `seq_of_events_cause`;
-DROP VIEW IF EXISTS `seq_of_events_collapsed`;
-DROP VIEW IF EXISTS `occurrences_collapsed`;
+-- DROP VIEW IF EXISTS `seq_of_events_cause`;
+-- DROP VIEW IF EXISTS `seq_of_events_collapsed`;
+-- DROP VIEW IF EXISTS `occurrences_collapsed`;

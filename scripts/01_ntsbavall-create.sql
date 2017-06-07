@@ -190,6 +190,15 @@ CREATE TABLE `aircraft` (
   `pilot_ft_as_of` DATETIME DEFAULT NULL,
   `pilot_flight_crew_lchg_date` DATETIME DEFAULT NULL,
   `pilot_flight_crew_lchg_userid` VARCHAR(18) DEFAULT NULL,
+  `pilot_seat_occ_row` INT DEFAULT NULL,
+  `pilot_infl_rest_inst` CHAR(1) DEFAULT NULL,
+  `pilot_infl_rest_depl` CHAR(1) DEFAULT NULL,
+  `pilot_child_restraint` CHAR(3) DEFAULT NULL,
+  `pilot_med_crtf_limit` VARCHAR(64) DEFAULT NULL,
+  `pilot_mr_faa_med_certf` CHAR(4) DEFAULT NULL,
+  `pilot_pilot_flying` INT DEFAULT NULL,
+  `pilot_available_restraint` CHAR(1) DEFAULT NULL,
+  `pilot_restraint_used` CHAR(1) DEFAULT NULL,
   `pilot_cert_code` CHAR(55) DEFAULT NULL,
   `pilot_rat_airpln` CHAR(25) DEFAULT NULL,
   `pilot_rat_instruct` CHAR(50) DEFAULT NULL,
@@ -524,6 +533,15 @@ CREATE TABLE `flight_crew` (
   `ft_as_of` DATETIME DEFAULT NULL,
   `flight_crew_lchg_date` DATETIME DEFAULT NULL,
   `flight_crew_lchg_userid` VARCHAR(18) DEFAULT NULL,
+  `seat_occ_row` INT DEFAULT NULL,
+  `infl_rest_inst` CHAR(1) DEFAULT NULL,
+  `infl_rest_depl` CHAR(1) DEFAULT NULL,
+  `child_restraint` CHAR(3) DEFAULT NULL,
+  `med_crtf_limit` VARCHAR(64) DEFAULT NULL,
+  `mr_faa_med_certf` CHAR(4) DEFAULT NULL,
+  `pilot_flying` INT DEFAULT NULL,
+  `available_restraint` CHAR(1) DEFAULT NULL,
+  `restraint_used` CHAR(1) DEFAULT NULL,
   `crew_cert_code` CHAR(55) DEFAULT NULL,
   `crew_rat_airpln` CHAR(25) DEFAULT NULL,
   `crew_rat_instruct` CHAR(50) DEFAULT NULL,
@@ -544,7 +562,7 @@ CREATE TABLE `flight_crew` (
 
 LOAD DATA INFILE '/tmp/flight_crew.csv' INTO TABLE `flight_crew`
 FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\r\n' IGNORE 1 LINES
-(@evid, @aircraftkey, @crewno, @crewcategory, @crewage, @crewsex, @crewcity, @crewresstate, @crewrescountry, @medcertf, @medcrtfvldty, @datelstmed, @crewratendorse, @crewinjlevel, @seatbeltsused, @shldrharnused, @crewtoxperf, @seatoccpic, @pcprofession, @bfr, @bfrdate, @ftasof, @lchgdate, @lchguserid)
+(@evid, @aircraftkey, @crewno, @crewcategory, @crewage, @crewsex, @crewcity, @crewresstate, @crewrescountry, @medcertf, @medcrtfvldty, @datelstmed, @crewratendorse, @crewinjlevel, @seatbeltsused, @shldrharnused, @crewtoxperf, @seatoccpic, @pcprofession, @bfr, @bfrdate, @ftasof, @lchgdate, @lchguserid, @seatoccrow, @inflrestinst, @inflrestdepl, @childrestraint, @medcrtflimit, @mrfaamedcertf, @pilotflying, @availablerestraint, @restraintused)
 SET
   `ev_id` = TRIM(NULLIF(@evid, '')),
   `aircraft_key` = TRIM(NULLIF(@aircraftkey, '')),
@@ -571,7 +589,16 @@ SET
   `bfr_date` = DATE_FORMAT(STR_TO_DATE(TRIM(NULLIF(@bfrdate, '')), '%m/%d/%Y'), '%Y-%m-%d'),
   `ft_as_of`= DATE_FORMAT(STR_TO_DATE(TRIM(NULLIF(@ftasof, '')), '%m/%d/%Y'), '%Y-%m-%d'),
   `flight_crew_lchg_date` = DATE_FORMAT(STR_TO_DATE(TRIM(NULLIF(@lchgdate, '')), '%m/%d/%Y'), '%Y-%m-%d'),
-  `flight_crew_lchg_userid` = TRIM(NULLIF(@lchguserid, ''));
+  `flight_crew_lchg_userid` = TRIM(NULLIF(@lchguserid, '')),
+  `seat_occ_row` = TRIM(NULLIF(@seatoccrow, '')),
+  `infl_rest_inst` = TRIM(NULLIF(@inflrestinst, '')),
+  `infl_rest_depl` = TRIM(NULLIF(@inflrestdepl, '')),
+  `child_restraint` = TRIM(NULLIF(@childrestraint, '')),
+  `med_crtf_limit` = TRIM(NULLIF(@medcrtflimit, '')),
+  `mr_faa_med_certf` = TRIM(NULLIF(@mrfaamedcertf, '')),
+  `pilot_flying` = TRIM(NULLIF(@pilotflying, '')),
+  `available_restraint` = TRIM(NULLIF(@availablerestraint, '')),
+  `restraint_used` = TRIM(NULLIF(@restraintused, ''));
 
 SELECT 'Importing Flight Crew detailed data';
 DROP TABLE IF EXISTS `dt_flight_crew`;
