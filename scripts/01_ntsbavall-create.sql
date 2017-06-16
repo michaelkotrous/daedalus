@@ -224,8 +224,8 @@ CREATE TABLE `aircraft` (
   `group_code` VARCHAR(29) DEFAULT NULL,
   `subj_code` VARCHAR(89) DEFAULT NULL,
   `cause_factor` VARCHAR(29) DEFAULT NULL,
-  `modifier_code` INT DEFAULT NULL,
-  `person_code` INT DEFAULT NULL,
+  `modifier_code` VARCHAR(74) DEFAULT NULL,
+  `person_code` VARCHAR(74) DEFAULT NULL,
   PRIMARY KEY (`aircraft_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
@@ -675,8 +675,8 @@ CREATE TABLE `occurrences` (
   `group_code` VARCHAR(29) DEFAULT NULL,
   `subj_code` VARCHAR(89) DEFAULT NULL,
   `cause_factor` VARCHAR(29) DEFAULT NULL,
-  `modifier_code` INT DEFAULT NULL,
-  `person_code` INT DEFAULT NULL,
+  `modifier_code` VARCHAR(74) DEFAULT NULL,
+  `person_code` VARCHAR(74) DEFAULT NULL,
   PRIMARY KEY (`occurrence_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
