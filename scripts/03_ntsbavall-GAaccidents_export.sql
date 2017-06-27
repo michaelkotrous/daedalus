@@ -96,7 +96,7 @@ CREATE VIEW aircraft_ga_accidents as (
     `modifier_code`,
     `person_code`
   FROM `aircraft`
-  WHERE `far_part` = '091' AND `ev_type` = 'ACC' AND `ev_country` = 'USA' AND `acft_category` = 'AIR' AND (`fixed_retractable` = 'FIXD' OR `fixed_retractable` IS NULL) AND `commercial_space_flight` = 0 AND `unmanned` = 0
+  WHERE `far_part` = '091' AND `ev_type` = 'ACC' AND `ev_country` = 'USA' AND `acft_category` = 'AIR' AND `commercial_space_flight` = 0 AND `unmanned` = 0 AND `ev_date` BETWEEN CAST('1983-01-01' AS DATE) AND CAST('2007-12-31' AS DATE)
 );
 
 SELECT 'Export aircraft data for GA accidents to csv';
