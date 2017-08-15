@@ -28,6 +28,7 @@ DROP VIEW IF EXISTS `aircraft_ga_accidents`;
 CREATE VIEW aircraft_ga_accidents as (
   SELECT
     `aircraft_id`,
+    `regis_no`,
     `far_part`,
     `damage`,
     `acft_fire`,
