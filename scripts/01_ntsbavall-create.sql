@@ -216,6 +216,7 @@ CREATE TABLE `aircraft` (
   `pilot_flight_hours_totl_make` REAL DEFAULT NULL,
   `occurrence_no` TINYINT DEFAULT NULL,
   `occurrence_code` INT DEFAULT NULL,
+  `ev_occ_codes` CHAR(25) DEFAULT NULL,
   `phase_of_flight` INT DEFAULT NULL,
   `altitude` INT DEFAULT NULL,
   `occurrence_lchg_date` DATETIME DEFAULT NULL,

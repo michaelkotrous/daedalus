@@ -90,6 +90,7 @@ CREATE VIEW aircraft_ga_accidents as (
     `pilot_flight_hours_totl_make`,
     `occurrence_no`,
     `occurrence_code`,
+    `ev_occ_codes`,
     `phase_of_flight`,
     `seq_event_no`,
     `group_code`,
@@ -98,8 +99,24 @@ CREATE VIEW aircraft_ga_accidents as (
     `modifier_code`,
     `person_code`
   FROM `aircraft`
-  WHERE `far_part` = '091' AND `ev_type` = 'ACC' AND `ev_country` = 'USA' AND `acft_category` = 'AIR' AND `commercial_space_flight` = 0 AND `unmanned` = 0 AND `ev_date` BETWEEN CAST('1983-01-01' AS DATE) AND CAST('2007-12-31' AS DATE)
+  WHERE `far_part` = '091' AND `ev_type` = 'ACC' AND SUBSTR(`regis_no`,1,1) = "N" AND UPPER(`regis_no`) != "NONE" AND `ev_country` = 'USA' AND `acft_category` = 'AIR' AND `commercial_space_flight` = 0 AND `unmanned` = 0 AND `ev_date` BETWEEN CAST('1983-01-01' AS DATE) AND CAST('2007-12-31' AS DATE)
 );
+
+SELECT 'Concatenate first cause occurrence codes at the event level';
+DROP VIEW IF EXISTS `ev_occ_codes`;
+CREATE VIEW ev_occ_codes as (
+  SELECT
+    ev_id,
+    group_concat(occurrence_code) as ev_occ_codes
+  FROM aircraft_ga_accidents
+  GROUP BY ev_id
+);
+
+UPDATE `aircraft_ga_accidents`
+INNER JOIN `ev_occ_codes` ON aircraft_ga_accidents.ev_id = ev_occ_codes.ev_id
+SET aircraft_ga_accidents.ev_occ_codes = ev_occ_codes.ev_occ_codes;
+
+DROP VIEW IF EXISTS `ev_occ_codes`;
 
 SELECT 'Export aircraft data for GA accidents to csv';
 SELECT * FROM `aircraft_ga_accidents` 
