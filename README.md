@@ -1,7 +1,7 @@
 # Daedalus
 This project converts csv exports of select tables from the NTSB's eADMS (enhanced Accident Data Management System) dataset to MySQL and joins data on the aircraft, pilots, weather conditions and other circumstances to create a single dataset on General Aviation accidents between 1982 and 2017.
 
-Note: The latest export of the Microsoft Access database reflects eADMS data as of **May 1, 2017.** The full dataset is updated the first day of each month.
+Note: The latest export of the Microsoft Access database reflects eADMS data as of **Feb 1, 2019.** The full dataset is updated the first day of each month.
 
 ## Mission
 The National Transportation Safety Board (NTSB) collects extensive data on all aviation accidents. By law, any accident involving an aircraft operated with the intent of flight must be reported to the NTSB for investigation. The rich data is made available to researchers and the public on paper, but the data is difficult to find in practice and, when found, is only given in Microsoft Access (MDB) format.
@@ -9,9 +9,9 @@ The National Transportation Safety Board (NTSB) collects extensive data on all a
 The goal of the Daedalus project is to provide inspiration and even maybe the tools needed by researchers to convert and merge the NTSB eADMS dataset to a format that is better suited for answering their research questions regarding aviation accidents and incidents.
 
 ## Using Daedalus
-The first iteration of this repository will convert eight eADMS tables into MySQL tables, merge those tables, and then export a dataset listing aircraft, pilot, time, and weather information on all General Aviation accidents between Jan. 1, 1983 and Dec. 31, 2015 that involved U.S.-registered airplanes operating under 14 CFR Part 91, rules under which private pilots operate.
+The first iteration of this repository will convert eight eADMS tables into MySQL tables, merge those tables, and then export a dataset listing aircraft, pilot, time, and weather information on all General Aviation accidents between Jan. 1, 1983 and Dec. 31, 2016 that involved U.S.-registered airplanes operating under 14 CFR Part 91, rules under which private pilots operate.
 
-The programs directory includes R files that clean the exported dataset, load dependencies, and create a data frame that produces annual counts of Part 91 accidents and fatalities from 1983 through 2015. It also includes four activity measures for estimating trends in accident rates and fatality rates. Further, it produces annual counts, accident rates, and fatality rates by accident occurrence code to analyze trends in specific types of accidents.
+The programs directory includes R files that clean the exported dataset, load dependencies, and create a data frame that produces annual counts of Part 91 accidents and fatalities from 1983 through 2016. It also includes four activity measures for estimating trends in accident rates and fatality rates. Further, it produces annual counts, accident rates, and fatality rates by accident occurrence code to analyze trends in specific types of accidents.
 
 ### Generating General Aviation Accident Data
 Create a MySQL database of any name of your choosing, and a database user with all privileges. See the subsection "System Requirements" below for more on installing MySQL. Then in Terminal:
@@ -68,3 +68,8 @@ Daedalus is far from its ideal state; my hope is to provide a script that will d
 
 ## Publications Using Daedalus Project
 Koopman, Christopher, and Michael Kotrous. "Is Flight-Sharing Safe? Evaluating Safety Trends Among Private Pilots and General Aviation." SSRN Working Paper. Jul 26, 2018. Available at URL.
+
+```
+aircraft-GAaccidents-final.csv
+SHA-256: 1341f9cf96cecc63300a92de39a470fb8affb92c52734af0100006070d87ded3`
+```

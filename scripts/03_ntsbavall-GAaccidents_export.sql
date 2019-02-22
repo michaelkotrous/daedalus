@@ -99,7 +99,7 @@ CREATE VIEW aircraft_ga_accidents as (
     `modifier_code`,
     `person_code`
   FROM `aircraft`
-  WHERE `far_part` = '091' AND `ev_type` = 'ACC' AND SUBSTR(`regis_no`,1,1) = "N" AND UPPER(`regis_no`) != "NONE" AND `ev_country` = 'USA' AND `acft_category` = 'AIR' AND `commercial_space_flight` = 0 AND `unmanned` = 0 AND `ev_date` BETWEEN CAST('1983-01-01' AS DATE) AND CAST('2015-12-31' AS DATE)
+  WHERE `far_part` = '091' AND `ev_type` = 'ACC' AND SUBSTR(`regis_no`,1,1) = "N" AND UPPER(`regis_no`) != "NONE" AND `ev_country` = 'USA' AND `acft_category` = 'AIR' AND `commercial_space_flight` = 0 AND `unmanned` = 0 AND `ev_date` BETWEEN CAST('1983-01-01' AS DATE) AND CAST('2016-12-31' AS DATE)
 );
 
 SELECT 'Concatenate first cause occurrence codes at the event level';
