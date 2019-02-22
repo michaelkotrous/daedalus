@@ -1,5 +1,5 @@
 # NTSB eADMS Exports
-The General Aviation accident dataset uses data from six tables defined in the Microsoft Access (MDB) file made available by the [NTSB](https://app.ntsb.gov/avdata/):
+The General Aviation accident dataset uses data from eight tables defined in the Microsoft Access (MDB) file made available by the [NTSB](https://app.ntsb.gov/avdata/):
 
 * Aircraft
 * Events
