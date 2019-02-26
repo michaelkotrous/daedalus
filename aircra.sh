@@ -10,34 +10,45 @@ Options:
 -n (optional): database host name. Default value is \'localhost\'.
 -h (optional): show instructions for using aircra.sh script.'
 
-while getopts ":d:u:pn:h" option
+while [[ $# -gt 0 ]]
 do
-  case "${option}" in
-    d)
-      DATABASE=${OPTARG}
-      ;;
-    u)
-      DBUSER=${OPTARG}
-      ;;
-    p)
-      PASS="TRUE"
-      ;;
-    n)
-      DBHOST=${OPTARG}
-      ;;
-    h)
-      echo "$USAGE" >&2
-      exit 1
-      ;;
-    \?)
-      echo "$USAGE" >&2
-      exit 1
-      ;;
-    :) 
-      echo "$USAGE" >&2
-      exit 1
-      ;;
-  esac
+  unset OPTIND
+  unset OPTARG
+
+  while getopts ":d:u:pn:h" option
+  do
+    case "${option}" in
+      d)
+        DATABASE=${OPTARG}
+        ;;
+      u)
+        DBUSER=${OPTARG}
+        ;;
+      p)
+        PASS="TRUE"
+        ;;
+      n)
+        DBHOST=${OPTARG}
+        ;;
+      h)
+        echo "$USAGE" >&2
+        exit 1
+        ;;
+      \?)
+        echo "Error: Invalid option -$OPTARG specified" >&2
+        echo "$USAGE" >&2
+        exit 1
+        ;;
+      :)
+        echo "Error: Option -$OPTARG requires an argument" >&2
+        echo "$USAGE" >&2
+        exit 1
+        ;;
+    esac
+  done
+
+  shift "$((OPTIND - 1))"
+  shift
 done
 
 MYSQL=$(which mysql)
@@ -49,7 +60,8 @@ then
 else
   if [[ -z "$DBUSER" || -z "$DATABASE" ]]
   then
-    echo "$USAGE"
+    echo "Error: Database or User have not been defined" >&2
+    echo "$USAGE" >&2
     exit 1
   else
     echo 'Copying csv data to tmp folder to prepare for MySQL import.'
