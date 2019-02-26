@@ -18,16 +18,16 @@ Create a MySQL database of any name of your choosing, and a database user with a
 
 ```bash
 cd /path/to/daedalus
-./aircra.sh -u mysql_dbuser -d mysql_dbname
+./aircra.sh -d mysql_dbname -u mysql_dbuser
 ```
 
 All the options available to you when running the shell script `aircra.sh` are:
 
 ```
 -d (required): mysql database name that must be created before running command.
--u (required): mysql user that must have all privileges for database specified in option -d.
+-u (required): mysql user that must have all privileges for database.
+-p (optional): Add this option if password is required for the mysql user. This option does not accept arguments. By default, aircra.sh does not expect a password for your mysql user.
 -h (optional): database host name. Default value is 'localhost'.
--p (optional): Set this option to FALSE or F if password is not required for the mysql user. By default, aircra.sh expects a password for your mysql user.
 ```
 
 You will be prompted for the password of the MySQL user. Once entered, the remainder of the scripts will run, and you will finish with a csv export of the General Aviation accident dataset in the Daedalus project directory.
