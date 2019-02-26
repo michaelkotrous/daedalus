@@ -1,28 +1,33 @@
 #!/bin/bash
 
 DBHOST="localhost"
-USAGE=$'Usage: ./aircra.sh -d database -u username -p -h localhost
+USAGE=$'Usage: ./aircra.sh -d database -u username -p -n localhost
 
 Options:
 -d (required): mysql database name that must be created before running command.
 -u (required): mysql user that must have all privileges for database.
--p (optional): Add this option if password is required for the mysql user. This option does not accept arguments. By default, aircra.sh does not expect a password for your mysql user.
--h (optional): database host name. Default value is \'localhost\'.'
+-p (optional): add this option if password is required for the mysql user. This option does not accept arguments. By default, aircra.sh does not expect a password for your mysql user.
+-n (optional): database host name. Default value is \'localhost\'.
+-h (optional): show instructions for using aircra.sh script.'
 
-while getopts ":d:u:ph:" option
+while getopts ":d:u:pn:h" option
 do
   case "${option}" in
-    u) 
-      DBUSER=${OPTARG}
-      ;;
     d)
       DATABASE=${OPTARG}
+      ;;
+    u)
+      DBUSER=${OPTARG}
       ;;
     p)
       PASS="TRUE"
       ;;
-    h) 
+    n)
       DBHOST=${OPTARG}
+      ;;
+    h)
+      echo "$USAGE" >&2
+      exit 1
       ;;
     \?)
       echo "$USAGE" >&2

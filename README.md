@@ -21,18 +21,26 @@ cd /path/to/daedalus
 ./aircra.sh -d mysql_dbname -u mysql_dbuser
 ```
 
+If the MySQL user requires a password, then add the `-p` option to the aircra.sh command.
+
+```bash
+cd /path/to/daedalus
+./aircra.sh -d mysql_dbname -u mysql_dbuser -p
+```
+
+You will be prompted for the password of the MySQL user. Once entered, the remainder of the scripts will run, and you will finish with a csv export of the General Aviation accident dataset in the Daedalus project directory.
+
 All the options available to you when running the shell script `aircra.sh` are:
 
 ```
 -d (required): mysql database name that must be created before running command.
 -u (required): mysql user that must have all privileges for database.
--p (optional): Add this option if password is required for the mysql user. This option does not accept arguments. By default, aircra.sh does not expect a password for your mysql user.
--h (optional): database host name. Default value is 'localhost'.
+-p (optional): add this option if password is required for the mysql user. This option does not accept arguments. By default, aircra.sh does not expect a password for your mysql user.
+-n (optional): database host name. Default value is 'localhost'.
+-h (optional): show instructions for using aircra.sh script.
 ```
 
-You will be prompted for the password of the MySQL user. Once entered, the remainder of the scripts will run, and you will finish with a csv export of the General Aviation accident dataset in the Daedalus project directory.
-
-**Note:** The `aircra.sh` shell script also accepts option `-h` for defining the database host. That option defaults to `localhost`, but you are free to override that value if necessary.
+**Note:** The `aircra.sh` shell script also accepts option `-n` for defining the database host. That option defaults to `localhost`, but you are free to override that value if necessary.
 
 ### System Requirements
 The current version of this repository consists simply of csv data sheets, a shell script, and sql scripts that handle importing, merging, and exporting a dataset on General Aviation accident data. Thus, you only need a utility like Terminal to run the shell script and MySQL to handle the data conversion.
