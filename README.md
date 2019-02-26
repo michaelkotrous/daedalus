@@ -21,7 +21,7 @@ cd /path/to/daedalus
 ./aircra.sh -d mysql_dbname -u mysql_dbuser
 ```
 
-If the MySQL user requires a password, then add the `-p` option to the aircra.sh command.
+If the MySQL user requires a password, then add the `-p` option to the `aircra.sh` command.
 
 ```bash
 cd /path/to/daedalus
