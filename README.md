@@ -1,12 +1,12 @@
 # Daedalus
-This project converts csv exports of select tables from the NTSB's eADMS (enhanced Accident Data Management System) dataset to MySQL and joins data on the aircraft, pilots, weather conditions and other circumstances to create a single dataset on General Aviation accidents between 1983 and 2016.
+This project creates a dataset of General Aviation accidents investigated and reported by the NTSB between 1983 and 2016. Select tables exported from the NTSB's eADMS (enhanced Accident Data Management System) are loaded into MySQL, joined into a single table, and exported to csv. The NTSB data on the aircraft, pilots, weather conditions and other circumstances of private aviation accidents can then be loaded into R or Stata for analysis.
 
 **Note:** The latest export of the Microsoft Access database reflects eADMS data as of **Feb 1, 2019.** The full dataset is updated the first day of each month.
 
 ## Mission
-The National Transportation Safety Board (NTSB) collects extensive data on all aviation accidents. By law, any accident involving an aircraft operated with the intent of flight must be reported to the NTSB for investigation. The rich data is made available to researchers and the public on paper, but the data is difficult to find in practice and, when found, is only given in Microsoft Access (MDB) format.
+The National Transportation Safety Board (NTSB) collects extensive data on all aviation accidents. By law, any accident involving an aircraft operated with the intent of flight must be reported to the NTSB for investigation. The rich data is made available to researchers and the public, but the data is difficult to find and is only given in Microsoft Access (MDB) format.
 
-The goal of the Daedalus project is to provide inspiration and even maybe the tools needed by researchers to convert and merge the NTSB eADMS dataset to a format that is better suited for answering their research questions regarding aviation accidents and incidents.
+The goal of the Daedalus project is to prompt research questions and further inquiry into private aviation accidents and incidents. Daedalus is a tool built on freely available software that researchers can use to convert and merge the NTSB eADMS data tables into a format that is better suited for common data analysis packages like R and Stata. This way researchers can spend less time cleaning data and focus on running statistical tests.
 
 ## Using Daedalus
 The first iteration of this repository will convert eight eADMS tables into MySQL tables, merge those tables, and then export a dataset listing aircraft, pilot, time, and weather information on all General Aviation accidents between Jan. 1, 1983 and Dec. 31, 2016 that involved U.S.-registered airplanes operating under 14 CFR Part 91, rules under which private pilots operate.
@@ -43,7 +43,7 @@ All the options available to you when running the shell script `aircra.sh` are:
 **Note:** The `aircra.sh` shell script also accepts option `-n` for defining the database host. That option defaults to `localhost`, but you are free to override that value if necessary.
 
 ### System Requirements
-The current version of this repository consists simply of csv data sheets, a shell script, and sql scripts that handle importing, merging, and exporting a dataset on General Aviation accident data. Thus, you only need a utility like Terminal to run the shell script and MySQL to handle the data conversion.
+The current version of this repository consists simply of csv data sheets, a shell script, and sql scripts that handle importing, merging, and exporting a dataset on General Aviation accident data. You only need a utility like Terminal to run the shell script and MySQL to handle the data conversion.
 
 If you're not sure if you have MySQL installed on your server or device, check with this command in Terminal:
 
@@ -61,8 +61,6 @@ I won't lay out one specific option for installing MySQL; a few Google searches 
 setwd("/path/to/daedalus")
 accidentdata <- read.table("aircraft-GAaccidents-final.csv", sep=",", header=T, na.strings="NULL")
 ```
-
-**An issue has been detected with importing the data into R for Windows.** Until a fix is committed, please follow the instructions provided in the [issue thread](https://github.com/michaelkotrous/daedalus/issues/4#issuecomment-305215816). No problem has been detected with R running on MacOS.
 
 ## How You Can Contribute
 Daedalus is far from its ideal state; my hope is to provide a script that will download the latest version of the eADMS dataset, convert the MDB tables to MySQL, and then merge the MySQL tables to create a rich, working dataset that can be exported to a format friendly to R, Stata, and other statistical packages. Here's some tasks that you can submit a pull request for, if you are up to doing so:
