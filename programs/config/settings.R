@@ -4,6 +4,7 @@ library(chron)
 library(Hmisc)
 library(dplyr)
 library(lmtest)
+library(urca)
 
 # Set variables used across test
 top5codes <- c("250", "240", "230", "350", "220")
